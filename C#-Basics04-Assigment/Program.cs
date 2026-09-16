@@ -46,6 +46,18 @@ namespace Session4Assignment
             Console.WriteLine();
             #endregion
 
+            #region Q5: AddBonusPages (Pass by Value)
+            Console.WriteLine("Q5: AddBonusPages ");
+            int pages = 400;
+            AddBonusPages(pages);
+            Console.WriteLine($"Pages after AddBonusPages: {pages}");
+            Console.WriteLine("Expectation: 400. Why? Because 'pages' is a value type passed by value\n, meaning only a copy of the variable was modified inside the method.\n");
+            #endregion
+
+
+
+
+
 
 
 
@@ -69,6 +81,14 @@ namespace Session4Assignment
         {
             Console.WriteLine($"Book Title: {title}");
         }
+        #endregion
+
+        #region Q5 Method
+        static void AddBonusPages(int pages)
+        {
+            pages += 50;
+        }
+
         #endregion
 
 
