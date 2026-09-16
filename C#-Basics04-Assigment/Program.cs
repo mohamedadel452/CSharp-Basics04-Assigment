@@ -70,6 +70,23 @@ namespace Session4Assignment
             Console.WriteLine("Expectation: 450. The result is different because we used the 'ref' keyword,\n which passes the memory address of the variable,\n allowing the method to modify the original variable.\n");
             #endregion
 
+            #region Q8: ReplaceArray
+            Console.WriteLine("Q8: ReplaceArray ");
+            double[] myPrices = { 25.5, 40.0, 33.75 };
+            ReplaceArray(ref myPrices);
+            Console.WriteLine($"Length of array after ReplaceArray: {myPrices.Length}\n");
+            // The expectation is that the length of the array will be 3,
+            // because we replaced the original array with a new one inside the method.
+            // Let's print the new prices to verify
+            foreach (var price in myPrices)
+            {
+                Console.WriteLine($"Price: {price}");
+
+            }
+            //but without the ref keyword, the original array would not be replaced as the parameter isd only a copy of the reference to the original array,
+            //and reassigning it inside the method would not affect the original array outside the method.
+            #endregion
+
 
 
 
@@ -128,6 +145,15 @@ namespace Session4Assignment
         {
             // Since we are using 'ref', we can modify the original variable directly
             pages += 50;
+        }
+        #endregion
+
+        #region Q8 Method
+        static void ReplaceArray(ref double[] prices)
+        {
+            // This method demonstrates replacing the entire array by passing it by reference using the 'ref' keyword
+            // We create a new array and assigin it to the parameter, which will affect the original array outside this method
+            prices = new double[] { 10.0, 12.5, 15.0 };
         }
         #endregion
 
