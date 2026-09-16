@@ -116,6 +116,14 @@ namespace Session4Assignment
 
             #endregion
 
+            #region Q11: PrintBookInfo (Named parameters)
+            //when we use named parameters, we can specify the values for the parameters in any order,
+            //and we can also skip optional parameters if we want to use their default values.
+            Console.WriteLine("Q11: PrintBookInfo (Named parameters)");
+            PrintBookInfo(pages: 464, title: "Refactoring");
+            Console.WriteLine();
+            #endregion
+
 
         }
 
@@ -191,7 +199,7 @@ namespace Session4Assignment
         }
         #endregion
 
-        #region Q10 Method
+        #region Q10 & Q11 Method
         static void PrintBookInfo(string title, int pages = 300)
         {
             // This method demonstrates the use of optional parameters in C#
