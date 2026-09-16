@@ -38,6 +38,16 @@ namespace Session4Assignment
             Console.WriteLine();
             #endregion
 
+            #region Q4: PrintBookTitle
+            // Call the PrintBookTitle method to display the title of a book
+            Console.WriteLine("Q4: PrintBookTitle ");
+            // The method takes a string parameter (the title of the book) and does not return any value
+            PrintBookTitle("Clean Code");
+            Console.WriteLine();
+            #endregion
+
+
+
 
 
 
@@ -53,6 +63,17 @@ namespace Session4Assignment
             Console.WriteLine("Welcome to the Library!");
         }
         #endregion
+
+        #region Q4 Method
+        static void PrintBookTitle(string title)
+        {
+            Console.WriteLine($"Book Title: {title}");
+        }
+        #endregion
+
+
+
+
 
         #endregion
 
