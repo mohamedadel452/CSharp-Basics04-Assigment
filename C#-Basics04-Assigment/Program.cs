@@ -87,6 +87,25 @@ namespace Session4Assignment
             //and reassigning it inside the method would not affect the original array outside the method.
             #endregion
 
+            #region Q9: TryGetPrice (out parameter)
+            Console.WriteLine("\nQ9: TryGetPrice ");
+            // Call the TryGetPrice method to attempt to get the price of a book
+            //the out parameter allows the method to return an additional value (the price) along with the boolean result indicating success or failure
+            double myprice = 0;
+            bool found = TryGetPrice("Clean Code", out myprice);
+            if (found)
+            {
+
+
+                Console.WriteLine($"Price found: {myprice}");
+            }
+            else
+            {
+                Console.WriteLine($"Price not found. And the price is : {myprice}");
+            }
+            Console.WriteLine();
+            #endregion
+
 
 
 
@@ -157,6 +176,21 @@ namespace Session4Assignment
         }
         #endregion
 
+        #region Q9 Method
+        static bool TryGetPrice(string title, out double price)
+        {
+            if (title == "Clean Code")
+            {
+                price = 25.5;
+                return true;
+            }
+            else
+            {
+                price = 0;
+                return false;
+            }
+        }
+        #endregion
 
 
 
