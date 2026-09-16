@@ -26,7 +26,16 @@ namespace Session4Assignment
             Console.WriteLine($"Copies on shelf 0, slot 1: {shelfCopies[0, 1]}");
             Console.WriteLine($"Copies on shelf 1, slot 0: {shelfCopies[1, 0]}");
             Console.WriteLine($"Copies on shelf 1, slot 1: {shelfCopies[1, 1]}");
-           
+            #endregion
+
+            #region Q3: PrintWelcomeMessage
+            // Call the PrintWelcomeMessage method to display a welcome message
+            //this method is defined below the Main method
+            // The method is static, so we can call it directly without creating an instance of the Program class
+            // The method does not take any parameters and does not return any value
+            Console.WriteLine("\nQ3: PrintWelcomeMessage ");
+            PrintWelcomeMessage();
+            Console.WriteLine();
             #endregion
 
 
@@ -35,6 +44,19 @@ namespace Session4Assignment
 
         }
 
+
+        #region outer methods
+
+        #region Q3 Method
+        static void PrintWelcomeMessage()
+        {
+            Console.WriteLine("Welcome to the Library!");
+        }
+        #endregion
+
+        #endregion
+
     }
-   
+
+
 }
