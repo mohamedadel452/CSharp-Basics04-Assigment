@@ -62,6 +62,16 @@ namespace Session4Assignment
             Console.WriteLine("Expectation: 20.5. Why? Because arrays are reference types.\n Modifying the elements of the array inside the method modifies the original array.\n");
             #endregion
 
+            #region Q7: AddBonusPagesByRef (Pass by Reference)
+            Console.WriteLine("Q7: AddBonusPagesByRef ");
+            int refPages = 400;
+            AddBonusPagesByRef(ref refPages);
+            Console.WriteLine($"Pages after AddBonusPagesByRef: {refPages}");
+            Console.WriteLine("Expectation: 450. The result is different because we used the 'ref' keyword,\n which passes the memory address of the variable,\n allowing the method to modify the original variable.\n");
+            #endregion
+
+
+
 
 
 
@@ -110,6 +120,15 @@ namespace Session4Assignment
             }
         }
 
+        #endregion
+
+        #region Q7 Method
+        // This method demonstrates passing a value type by reference using the 'ref' keyword
+        static void AddBonusPagesByRef(ref int pages)
+        {
+            // Since we are using 'ref', we can modify the original variable directly
+            pages += 50;
+        }
         #endregion
 
 
