@@ -54,6 +54,14 @@ namespace Session4Assignment
             Console.WriteLine("Expectation: 400. Why? Because 'pages' is a value type passed by value\n, meaning only a copy of the variable was modified inside the method.\n");
             #endregion
 
+            #region Q6: ApplyDiscount (Pass by Reference Type)
+            Console.WriteLine("Q6: ApplyDiscount ");
+            double[] discountPrices = { 25.5, 40.0 };
+            ApplyDiscount(discountPrices);
+            Console.WriteLine($"discountPrices[0] after ApplyDiscount: {discountPrices[0]}");
+            Console.WriteLine("Expectation: 20.5. Why? Because arrays are reference types.\n Modifying the elements of the array inside the method modifies the original array.\n");
+            #endregion
+
 
 
 
@@ -87,6 +95,19 @@ namespace Session4Assignment
         static void AddBonusPages(int pages)
         {
             pages += 50;
+        }
+
+        #endregion
+
+        #region Q6 Method
+        static void ApplyDiscount(double[] prices)
+        {
+            // Check if the array is not null and has at least one element before modifying it
+            if (prices != null && prices.Length > 0)
+            {
+                // As we have the reference to the original array, we can modify its elements directly
+                prices[0] -= 5;
+            }
         }
 
         #endregion
