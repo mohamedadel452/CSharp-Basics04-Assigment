@@ -124,6 +124,12 @@ namespace Session4Assignment
             Console.WriteLine();
             #endregion
 
+            #region Q12: PrintAllTitles (params keyword)
+            Console.WriteLine("Q12: PrintAllTitles (params keyword)");
+            PrintAllTitles("Clean Code", "The Pragmatic Programmer", "Refactoring");
+            Console.WriteLine();
+            #endregion
+
 
         }
 
@@ -206,6 +212,18 @@ namespace Session4Assignment
             // The 'pages' parameter has a default value of 300,
             // so if it is not provided when the method is called, it will default to 300
             Console.WriteLine($"Book: {title}, Pages: {pages}");
+        }
+
+        #endregion
+
+        #region Q12 Method
+        static void PrintAllTitles(params string[] titles)
+        {
+            //params keyword used on arrays and collections to allow to pass the value of this array as seperated values 
+            foreach (string title in titles)
+            {
+                Console.WriteLine(title);
+            }
         }
 
         #endregion
