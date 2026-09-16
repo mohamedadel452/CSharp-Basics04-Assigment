@@ -6,7 +6,7 @@ namespace Session4Assignment
     {
         static void Main(string[] args)
         {
-            
+
             #region Q1: One-dimensional array
             Console.WriteLine("Q1: One-dimensional array ");
             double[] prices = { 25.5, 40.0, 33.75 };
@@ -106,16 +106,15 @@ namespace Session4Assignment
             Console.WriteLine();
             #endregion
 
+            #region Q10: PrintBookInfo (Optional parameters)
+            Console.WriteLine("Q10: PrintBookInfo ");
+            Console.WriteLine("-Calling PrintBookInfo with only the title:");
+            PrintBookInfo("Clean Code"); // title only
+            Console.WriteLine("-Calling PrintBookInfo with both title and pages:");
+            PrintBookInfo("The Pragmatic Programmer", 320); // both
+            Console.WriteLine();
 
-
-
-
-
-
-
-
-
-
+            #endregion
 
 
         }
@@ -192,8 +191,16 @@ namespace Session4Assignment
         }
         #endregion
 
+        #region Q10 Method
+        static void PrintBookInfo(string title, int pages = 300)
+        {
+            // This method demonstrates the use of optional parameters in C#
+            // The 'pages' parameter has a default value of 300,
+            // so if it is not provided when the method is called, it will default to 300
+            Console.WriteLine($"Book: {title}, Pages: {pages}");
+        }
 
-
+        #endregion
 
         #endregion
 
