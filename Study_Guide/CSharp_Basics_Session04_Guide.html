@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>دليل الغوص العميق: المصفوفات في الذاكرة وتمرير المعاملات (Value vs ref vs out vs params)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+:root {
+  --bg: #0b1120; --surface: #111827; --elevated: #1e293b; --border: #334155;
+  --text: #f8fafc; --muted: #94a3b8; --accent: #38bdf8; --accent-soft: rgba(56,189,248,0.12);
+  --good: #10b981; --good-soft: rgba(16,185,129,0.12);
+  --warn: #f59e0b; --warn-soft: rgba(245,158,11,0.12);
+  --code-bg: #070b14;
+  --font: "IBM Plex Sans Arabic", "Segoe UI", Tahoma, sans-serif;
+  --mono: "JetBrains Mono", Consolas, monospace;
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f1f5f9; --surface: #ffffff; --elevated: #f8fafc; --border: #cbd5e1;
+    --text: #0f172a; --muted: #475569; --accent: #0284c7; --accent-soft: rgba(2,132,199,0.1);
+    --good: #059669; --good-soft: rgba(5,150,105,0.1);
+    --warn: #d97706; --warn-soft: rgba(217,119,6,0.1);
+    --code-bg: #0f172a;
+  }
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font); background: var(--bg); color: var(--text); line-height: 1.9; font-size: 17px; padding: 2.5rem 1.25rem 5rem; }
+.container { max-width: 960px; margin: 0 auto; }
+.hero { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 2rem; margin-bottom: 2rem; border-right: 5px solid var(--accent); }
+.badge { font-family: var(--mono); font-size: 0.82rem; color: var(--accent); background: var(--accent-soft); padding: 0.25rem 0.7rem; border-radius: 6px; display: inline-block; margin-bottom: 0.6rem; direction: ltr; }
+h1 { font-size: 1.95rem; margin-bottom: 0.6rem; line-height: 1.35; }
+h2 { font-size: 1.4rem; color: var(--accent); margin: 2.2rem 0 0.9rem; padding-bottom: 0.45rem; border-bottom: 1px solid var(--border); }
+h3 { font-size: 1.12rem; margin: 1.3rem 0 0.4rem; }
+p { margin: 0.65rem 0; color: var(--text); }
+.lead { color: var(--muted); font-size: 1.05rem; }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.35rem; margin: 1rem 0; }
+.note { padding: 1rem 1.2rem; border-radius: 10px; border-right: 4px solid var(--accent); background: var(--accent-soft); margin: 1rem 0; }
+.note.good { border-right-color: var(--good); background: var(--good-soft); }
+.note.warn { border-right-color: var(--warn); background: var(--warn-soft); }
+pre { direction: ltr; text-align: left; background: var(--code-bg); color: #e2e8f0; padding: 1.1rem 1.25rem; border-radius: 10px; overflow-x: auto; font-family: var(--mono); font-size: 0.86rem; line-height: 1.65; margin: 0.8rem 0; border: 1px solid var(--border); }
+code { font-family: var(--mono); font-size: 0.88em; direction: ltr; unicode-bidi: isolate; background: var(--elevated); padding: 0.1rem 0.4rem; border-radius: 4px; }
+pre code { background: none; padding: 0; }
+table { width: 100%; border-collapse: collapse; margin: 1rem 0; background: var(--surface); border-radius: 10px; overflow: hidden; border: 1px solid var(--border); font-size: 0.94rem; }
+th, td { padding: 0.75rem 1rem; text-align: right; border-bottom: 1px solid var(--border); }
+th { background: var(--elevated); color: var(--accent); font-weight: 700; }
+ul { padding-right: 1.4rem; margin: 0.6rem 0; }
+li { margin: 0.35rem 0; }
+</style>
+</head>
+<body>
+  <div class="container">
+    <header class="hero">
+      <span class="badge">MODULE 01 • SESSION 04 • ARRAYS MEMORY & PARAMETER PASSING SEMANTICS</span>
+      <h1>دليل الغوص العميق: المصفوفات في الذاكرة وتمرير المعاملات (Value vs ref vs out vs params)</h1>
+      <p class="lead">شرح معماري لكيفية تخزين المصفوفات في الـ Heap، والفرق الدقيق في الـ Stack Frame عند تمرير المعاملات للدوال.</p>
+    </header>
+    <main>
+      
+        <h2>1. معمارية المصفوفات في الذاكرة: 1D & 2D Rectangular Arrays (Q1 & Q2)</h2>
+        <div class="card">
+          <p>المصفوفات في C# ترث من الفئة <code>System.Array</code> وهي دائماً <strong>Reference Types</strong> تُخزن في الـ Heap في كتلة ذاكرة متصلة (Contiguous Memory Block):</p>
+          <ul>
+            <li><strong>1D Array (<code>double[] prices</code>):</strong> وصول فوري لأي عنصر بتعقيد <code>O(1)</code> عبر المعادلة: <code>BaseAddress + (Index * ElementSize)</code>.</li>
+            <li><strong>2D Rectangular Array (<code>int[,] shelfCopies</code>):</strong> مصفوفة ثنائية الأبعاد متصلة في كتلة واحدة في الذاكرة (Row-Major Order)، مما يجعلها صديقة لـ CPU Cache.</li>
+          </ul>
+        </div>
+
+        <h2>2. الفروق الجوهرية في تمرير المعاملات للدوال (Q5 – Q12)</h2>
+        <table>
+          <thead>
+            <tr><th>طريقة التمرير</th><th>ماذا يُمرر في الـ Stack Frame؟</th><th>السلوك عند التعديل داخل الدالة</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Value Type by Value (Q5)</strong><br><code>AddBonusPages(int pages)</code></td><td>نسخة مستقلة من القيمة (Bitwise Copy).</td><td>التعديل يؤثر على النسخة المحلية فقط؛ المتغير الأصلي يبقى <code>400</code>.</td></tr>
+            <tr><td><strong>Reference Type by Value (Q6)</strong><br><code>ApplyDiscount(double[] prices)</code></td><td>نسخة من المؤشر (Reference Copy) تشير لنفس المصفوفة في الـ Heap.</td><td>تعديل عنصر <code>prices[0] -= 5</code> يعدل المصفوفة الأصلية، لكن إعادة إسناد المؤشر <code>prices = new...</code> لن يغير المؤشر الأصلي!</td></tr>
+            <tr><td><strong>Value Type by Reference (Q7)</strong><br><code>AddBonusPagesByRef(ref int pages)</code></td><td>عنوان الذاكرة الفعلي (Managed Pointer <code>int&amp;</code>) للمتغير الأصلي.</td><td>التعديل يغير المتغير الأصلي مباشرة ليصبح <code>450</code>.</td></tr>
+            <tr><td><strong>Reference Type by Ref (Q8)</strong><br><code>ReplaceArray(ref double[] prices)</code></td><td>عنوان المؤشر نفسه (Pointer to Pointer).</td><td>يسمح باستبدال المصفوفة بالكامل بمصفوفة جديدة في الـ Heap وتحديث متغير المستدعي!</td></tr>
+            <tr><td><strong>Out Parameter (Q9)</strong><br><code>TryGetPrice(string, out double)</code></td><td>عنوان متغير الإخراج مع التزام المترجم بتهيئته قبل خروج الدالة.</td><td>مثالي لنمط <code>Try...</code> لإرجاع حالة النجاح مع القيمة المستخرجة.</td></tr>
+            <tr><td><strong>Optional, Named &amp; params (Q10–Q12)</strong></td><td>قيم افتراضية وقت الترجمة، ومصفوفة متغيرة الطول مع <code>params</code>.</td><td>مرونة عالية في استدعاء الدوال بعدد متغير من المعاملات.</td></tr>
+          </tbody>
+        </table>
+        
+    </main>
+  </div>
+</body>
+</html>

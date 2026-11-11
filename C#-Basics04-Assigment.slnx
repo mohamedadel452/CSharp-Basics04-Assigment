@@ -1,3 +1,7 @@
 <Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="README.md" />
+    <File Path="Study_Guide/CSharp_Basics_Session04_Guide.html" />
+  </Folder>
   <Project Path="C#-Basics04-Assigment/C#-Basics04-Assigment.csproj" />
 </Solution>
